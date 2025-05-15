@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { FindRandomComment, InstaPost, ResponseType, Userlist } from '@/types';
 
-
 const API_BASE_URL = '/api';
 
 // API functions
