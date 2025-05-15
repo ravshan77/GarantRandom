@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/api/*"
+  to = "http://sud-upload-file.garant.uz/api/:splat"
+  status = 200
+  force = true
