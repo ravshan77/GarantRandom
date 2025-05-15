@@ -40,12 +40,14 @@ const HomePage: React.FC = () => {
       }
       
       setCurrentPostId(postId);
-      const result = await api.getPostComments(postId);
-      setInstaPost(result.result)
-      setComments(result.result.comments);
-      setTotalCount(result.result.comments.length);
-      toast({ title: "", description: `${result.result.comments.length} ta izoh yuklandi` });
+      const resoult = await api.getPostComments(postId);
+      setInstaPost(resoult.resoult)
+      setComments(resoult.resoult.comments);
+      setTotalCount(resoult.resoult.comments.length);
+      toast({ title: "", description: `${resoult.resoult.comments.length} ta izoh yuklandi` });
     } catch (error) {
+      console.log(error);
+      
       toast({ title: "Xatolik", description: "Izohlarni yuklashda xatolik yuz berdi", variant: "destructive" });
     } finally {
       setIsLoading(false);
@@ -61,7 +63,7 @@ const HomePage: React.FC = () => {
       
       // Add some delay for UI effect
       const randomWinner = await api.selectRandomWinner(currentPostId);
-      setWinner(randomWinner.result);
+      setWinner(randomWinner.resoult);
         
       // Scroll to winner
       setTimeout(() => {
@@ -70,7 +72,7 @@ const HomePage: React.FC = () => {
 
       // Then find and scroll to the comment
       setTimeout(() => {
-        const winnerComment = document.getElementById(`comment-${randomWinner.result.comment_id}`);
+        const winnerComment = document.getElementById(`comment-${randomWinner.resoult.comment_id}`);
         if (winnerComment) {
           winnerComment.scrollIntoView({ behavior: 'smooth', block: 'center' });
           winnerComment.classList.add('highlight-winner'); // Add highlight class

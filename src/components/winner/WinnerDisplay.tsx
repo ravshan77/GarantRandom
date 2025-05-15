@@ -47,8 +47,8 @@ const WinnerDisplay: React.FC<WinnerDisplayProps> = ({ winner, isSelecting }) =>
     if (!winner.comment_id) return;
     
     try { 
-      const result = await api.blockUserComment(winner.instagram_user_id, winner.comment_id);
-      toast({ description: result.result, variant: "default" });
+      const resoult = await api.blockUserComment(winner.instagram_user_id, winner.comment_id);
+      toast({ description: resoult.resoult, variant: "default" });
     } catch (error) {
       toast({ title: "Xatolik", description: "Ishtirokchi bloklashda xatolik yuz berdi", variant: "destructive" });
     }
@@ -71,24 +71,19 @@ const WinnerDisplay: React.FC<WinnerDisplayProps> = ({ winner, isSelecting }) =>
             
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-1">
-                <span className="font-semibold text-instagram-dark text-white">{winner.username}</span>
-                <span className="bg-instagram-primary text-white px-2 py-0.5 rounded-full"> G'olib </span>
-                {/* <span className="text-xs bg-instagram-primary text-white px-2 py-0.5 rounded-full"> blocklash </span> */}
-                <div className="flex items-center space-x-2">
+                <span className="font-semibold text-instagram-dark text-white text-sm">{winner.username}</span>
+                <span className="bg-instagram-primary text-white px-2 py-0.5 rounded-full text-sm"> G'olib </span>
+                {/* <div className="flex items-center space-x-2">
                   <Switch onCheckedChange={handleBlockUser} />
-                  <Label className='text-white'>Bloklash</Label>
-                </div>
+                  <Label className='text-white text-xs'>Bloklash</Label>
+                </div> */}
               </div>
               
-              <p className="text-instagram-dark mt-1 text-white">{winner.select_comment}</p>
-              {/* <div className="flex items-center gap-3 mt-2 text-xs text-instagram-gray">
-                <span>{formatTime(username)}</span>
-                {likes_count > 0 && (
-                  <span className="flex items-center gap-1">
-                    {formatNumber(likes_count)} like
-                  </span>
-                )}
-              </div> */}
+              <p className="text-instagram-dark mt-1 text-white text-sm">{winner.select_comment}</p>
+              <div className="flex items-center justify-end space-x-2">
+                <Switch onCheckedChange={handleBlockUser} />
+                <Label className='text-white text-xs'>Bloklash</Label>
+              </div>
             </div>
           </div>
         </motion.div>

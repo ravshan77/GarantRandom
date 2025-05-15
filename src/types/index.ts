@@ -36,7 +36,7 @@ export interface BlockUserComment {
 }
 
 export interface ResponseType<T> {
-  result: T,
+  resoult: T,
   status: boolean
 }
 
@@ -44,5 +44,6 @@ export interface Userlist {
   id: number,
   username: string,
   comment_id: number,
-  comment_text: string
+  comment_text: string,
+  date: string
 }

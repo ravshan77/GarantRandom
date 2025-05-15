@@ -9,7 +9,7 @@ interface WinnersUserItemProps {
 }
 
 const WinnersUserItem: React.FC<WinnersUserItemProps> = ({ user }) => {
-  const { comment_text, username } = user;
+  const { comment_text, username, date } = user;
 
   return (
     <motion.div className={"p-4 hover:bg-gray-50 border-b border-instagram-border"} initial={true} animate={true}>
@@ -22,10 +22,11 @@ const WinnersUserItem: React.FC<WinnersUserItemProps> = ({ user }) => {
           <div className="flex items-center gap-1 justify-between">
             <span className="font-semibold text-instagram-dark">{username}</span>
             <div className="flex items-center space-x-2">
-            <Trophy size={20} className="inline-block mr-2" />
+              <Trophy size={20} className="inline-block mr-2" />
             </div>
           </div>
           <p className="text-instagram-dark mt-1">{comment_text}</p>
+          <p className='text-end text-sm p-0 m-0'>{date}</p>
         </div>
       </div>
     </motion.div>

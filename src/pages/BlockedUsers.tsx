@@ -28,8 +28,8 @@ const BlockedUsers = () => {
       return;
       }
       
-      const result = await api.blockedUsersList(String(shortcode));
-      setUserList(result.result)          
+      const resoult = await api.blockedUsersList(String(shortcode));
+      setUserList(resoult.resoult)          
     } catch (error) {
       toast({ title: "Xatolik", description: "Ro'yxatni yuklashda xatolik yuz berdi", variant: "destructive" });
     } finally {

@@ -14,16 +14,16 @@ interface BlockedUserItemProps {
 
 const BlockedUserItem: React.FC<BlockedUserItemProps> = ({ user, fetchBlockedUser }) => {
   const { toast } = useToast();
-  const { comment_id, comment_text, id, username } = user;
+  const { comment_id, comment_text, id, username, date } = user;
 
   
   const handleBlockUser = async () => {
     if (!id) return;
     
     try { 
-      const result = await api.blockUserComment(id, comment_id);
+      const resoult = await api.blockUserComment(id, comment_id);
       fetchBlockedUser()
-      toast({ description: result.result, variant: "default" });
+      toast({ description: resoult.resoult, variant: "default" });
     } catch (error) {
       toast({ title: "Xatolik", description: "Ishtirokchini bloklashda xatolik yuz berdi", variant: "destructive" });
     }
@@ -45,6 +45,7 @@ const BlockedUserItem: React.FC<BlockedUserItemProps> = ({ user, fetchBlockedUse
             </div>
           </div>
           <p className="text-instagram-dark mt-1">{comment_text}</p>
+          <p className='text-end text-sm p-0 m-0'>{date}</p>
         </div>
       </div>
     </motion.div>
