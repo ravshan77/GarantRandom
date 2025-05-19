@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { FindRandomComment, InstaPost, ResponseType, Userlist } from '@/types';
 
-// const API_BASE_URL = '/api'; // !Global
-const API_BASE_URL = 'http://sud-upload-file.garant.uz/api'; //? Lokal
+const API_BASE_URL = '/api'; // !Global
+// const API_BASE_URL = 'http://sud-upload-file.garant.uz/api'; //? Lokal
 
 // API functions
 export const api = {
