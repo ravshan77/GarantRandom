@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import CommentsList from '@/components/comments/CommentsList';
 import WinnerDisplay from '@/components/winner/WinnerDisplay';
+import { WinnerDialog } from '@/components/winner/WinnerDialog';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import WinnerCelebration from '@/components/winner/WinnerCelebration';
 import { isValidInstagramUrl, extractPostIdFromUrl } from '@/lib/utils';
@@ -18,11 +19,22 @@ const HomePage: React.FC = () => {
   const { toast } = useToast();
   const [isSelecting, setIsSelecting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isWinnerDialog, setIsWinnerDialog] = useState(false)
 
   // Validate URL as user types
   useEffect(() => {
     setIsUrlValid(isValidInstagramUrl(postUrl));
   }, [postUrl]);
+
+  useEffect(() => {
+    if (winner?.instagram_user_id) { 
+      const timer = setTimeout(() => {
+        setIsWinnerDialog(true)
+      }, 2300)
+      
+      return () => clearTimeout(timer)
+    }
+    }, [winner])
   
   // Load comments
   const handleLoadComments = async () => {
@@ -90,6 +102,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       { isSelecting ? <LoadingOverlay /> : null}
+      { <WinnerDialog onOpenChange={setIsWinnerDialog} open={isWinnerDialog} winner={winner} /> }
       <div className="space-y-8">
         <section className="text-center max-w-3xl mx-auto">
           <img src={GarantLogo} className="h-12 w-12 text-instagram-primary mx-auto mb-4" alt='logo' />
@@ -135,7 +148,7 @@ const HomePage: React.FC = () => {
         )}
 
         {instaPost ? <section className='flex justify-end'>
-          <h1 className='mr-4' > <Link to={`/blocked-users/${instaPost?.shortcode}`} className='underline text-blue-500 text-lg'> Qora ro'yxat </Link> </h1>
+          {/* <h1 className='mr-4' > <Link to={`/blocked-users/${instaPost?.shortcode}`} className='underline text-blue-500 text-lg'> Qora ro'yxat </Link> </h1> */}
           <h1 className='ml-4' > <Link to={`/winner-users/${instaPost?.shortcode}`} className='underline text-blue-500 text-lg'> G'oliblar </Link> </h1>
         </section> : null}
       </div>
