@@ -12,15 +12,21 @@ import { WinnerDialog } from '@/components/winner/WinnerDialog';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import WinnerCelebration from '@/components/winner/WinnerCelebration';
 import { isValidInstagramUrl, extractPostIdFromUrl } from '@/lib/utils';
+import RouletteModal from '@/components/LotteryDrum';
+// import { RouletteModal } from '@/components/LotteryDrum';
+// import RouletteModal from '@/components/LotteryDrum';
+// import { RouletteModal } from '@/components/LotteryDrum';
+// import LotteryDrum from '@/components/LotteryDrum';
+// import CommentRouletteModal from '@/components/LotteryDrum';
 
 
 const HomePage: React.FC = () => {
-  const { postUrl, setPostUrl, totalCount, setTotalCount, isUrlValid, setIsUrlValid, comments, setComments, instaPost, setInstaPost, winner, setWinner, currentPostId, setCurrentPostId } = usePost();
+  const { postUrl, setPostUrl, totalCount, setTotalCount, isUrlValid, setIsUrlValid, comments, setComments, instaPost, setInstaPost, winner, setWinner, setCurrentPostId } = usePost();
   const { toast } = useToast();
-  const [isSelecting, setIsSelecting] = useState(false);
+  const [isSelecting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isWinnerDialog, setIsWinnerDialog] = useState(false)
-
+  const [showModal, setShowModal] = useState(false);
   // Validate URL as user types
   useEffect(() => {
     setIsUrlValid(isValidInstagramUrl(postUrl));
@@ -67,36 +73,36 @@ const HomePage: React.FC = () => {
   };
 
   // Select random winner
-  const handleSelectWinner = async () => {
-    if (!currentPostId || comments.length === 0) return;
-    try {
-      setIsSelecting(true);
-      setWinner(null);
+  // const handleSelectWinner = async () => {
+  //   if (!currentPostId || comments.length === 0) return;
+  //   try {
+  //     setIsSelecting(true);
+  //     setWinner(null);
       
-      // Add some delay for UI effect
-      const randomWinner = await api.selectRandomWinner(currentPostId);
-      setWinner(randomWinner.resoult);
+  //     // Add some delay for UI effect
+  //     const randomWinner = await api.selectRandomWinner(currentPostId);
+  //     setWinner(randomWinner.resoult);
         
-      // Scroll to winner
-      setTimeout(() => {
-        document.getElementById('winner-section')?.scrollIntoView({ behavior: 'smooth' });
-      }, 500);
+  //     // Scroll to winner
+  //     setTimeout(() => {
+  //       document.getElementById('winner-section')?.scrollIntoView({ behavior: 'smooth' });
+  //     }, 500);
 
-      // Then find and scroll to the comment
-      setTimeout(() => {
-        const winnerComment = document.getElementById(`comment-${randomWinner.resoult.comment_id}`);
-        if (winnerComment) {
-          winnerComment.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          winnerComment.classList.add('highlight-winner'); // Add highlight class
-        }
-      }, 1000);
+  //     // Then find and scroll to the comment
+  //     setTimeout(() => {
+  //       const winnerComment = document.getElementById(`comment-${randomWinner.resoult.comment_id}`);
+  //       if (winnerComment) {
+  //         winnerComment.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  //         winnerComment.classList.add('highlight-winner'); // Add highlight class
+  //       }
+  //     }, 1000);
 
-    } catch (error) {
-      toast({ title: "Xatolik", description: "G'olibni aniqlashda xatolik yuz berdi", variant: "destructive"});
-    } finally{  
-      setIsSelecting(false);
-    }
-  };
+  //   } catch (error) {
+  //     toast({ title: "Xatolik", description: "G'olibni aniqlashda xatolik yuz berdi", variant: "destructive"});
+  //   } finally{  
+  //     setIsSelecting(false);
+  //   }
+  // };
 
 
   return (
@@ -128,6 +134,14 @@ const HomePage: React.FC = () => {
             <iframe src={`${instaPost?.url}embed`} className="w-full" height="550" />
             </div>
         </section> : null}
+
+        {instaPost ? (
+          <section>
+            {/* <Button type='button' onClick={() => setShowModal(true)} >Ok</Button> */}
+            <div className="w-full max-w-md mx-auto border border-gray-300 rounded-md bg-white">
+            { showModal && <RouletteModal comments={comments} open={showModal} onClose={() => setShowModal( prev => !prev )} />}
+            </div>
+          </section>) : null}
         
         {winner ? <section id="winner-section">
           <h2 className="text-xl font-semibold mb-4">G'olib</h2>
@@ -135,13 +149,15 @@ const HomePage: React.FC = () => {
           <WinnerCelebration />
         </section> : null}
         
+        {instaPost ? <div className='flex justify-center items-center'>
+              <Button onClick={() => setShowModal(true)} disabled={isSelecting || comments?.length === 0} variant="instagram" className='' size="sm">
+                Tasodifiy g'olibni aniqlash
+              </Button>
+        </div> : null}
         {comments?.length > 0 && (
           <section>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Izohlar ({totalCount})</h2>
-              <Button onClick={handleSelectWinner} disabled={isSelecting || comments?.length === 0} variant="instagram" size="sm">
-                Tasodifiy g'olibni aniqlash
-              </Button>
             </div>
             <CommentsList comments={comments} isLoading={isLoading} />
           </section>
