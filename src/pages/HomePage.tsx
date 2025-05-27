@@ -6,18 +6,13 @@ import GarantLogo from '../assets/garantLogo.svg'
 import { usePost } from '@/context/PostUrlContext';
 import React, { useEffect, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
+import RouletteModal from '@/components/LotteryDrum';
 import CommentsList from '@/components/comments/CommentsList';
 import WinnerDisplay from '@/components/winner/WinnerDisplay';
 import { WinnerDialog } from '@/components/winner/WinnerDialog';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
 import WinnerCelebration from '@/components/winner/WinnerCelebration';
 import { isValidInstagramUrl, extractPostIdFromUrl } from '@/lib/utils';
-import RouletteModal from '@/components/LotteryDrum';
-// import { RouletteModal } from '@/components/LotteryDrum';
-// import RouletteModal from '@/components/LotteryDrum';
-// import { RouletteModal } from '@/components/LotteryDrum';
-// import LotteryDrum from '@/components/LotteryDrum';
-// import CommentRouletteModal from '@/components/LotteryDrum';
 
 
 const HomePage: React.FC = () => {
@@ -59,13 +54,15 @@ const HomePage: React.FC = () => {
       
       setCurrentPostId(postId);
       const resoult = await api.getPostComments(postId);
+
       setInstaPost(resoult.resoult)
       setComments(resoult.resoult.comments);
       setTotalCount(resoult.resoult.comments.length);
       toast({ title: "", description: `${resoult.resoult.comments.length} ta izoh yuklandi` });
     } catch (error) {
-      console.log(error);
-      
+      setInstaPost(null)
+      setComments([]);
+      setTotalCount(0)
       toast({ title: "Xatolik", description: "Izohlarni yuklashda xatolik yuz berdi", variant: "destructive" });
     } finally {
       setIsLoading(false);
@@ -104,6 +101,10 @@ const HomePage: React.FC = () => {
   //   }
   // };
 
+  const closeModal = () => {
+    handleLoadComments()
+    setShowModal(false)
+  }
 
   return (
     <>
@@ -139,7 +140,7 @@ const HomePage: React.FC = () => {
           <section>
             {/* <Button type='button' onClick={() => setShowModal(true)} >Ok</Button> */}
             <div className="w-full max-w-md mx-auto border border-gray-300 rounded-md bg-white">
-            { showModal && <RouletteModal comments={comments} open={showModal} onClose={() => setShowModal( prev => !prev )} />}
+            { showModal && <RouletteModal instaPost={instaPost} comments={comments} open={showModal} onClose={closeModal} />}
             </div>
           </section>) : null}
         

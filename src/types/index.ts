@@ -1,13 +1,13 @@
 export interface InstaPostComment {
   text: string;
   date: string
-  id: 1
-  instagram_user_id: 1
+  id: number
+  instagram_user_id: number
   instagram_user_name: string
-  is_selected: 0
+  is_selected: number
 }
 
-export interface InstaPost{
+export interface InstaPost {
   id: number;
   shortcode: string,
   url: string,

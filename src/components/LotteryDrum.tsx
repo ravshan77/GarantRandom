@@ -1,28 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti';
-
-
-interface InstaPostComment {
-  text: string;
-  date: string;
-  id: number;
-  instagram_user_id: number;
-  instagram_user_name: string;
-  is_selected: number;
-}
+import { api } from '@/services/api';
+import { toast } from './ui/use-toast';
+import { InstaPost, InstaPostComment } from '@/types';
 
 interface RouletteProps {
   comments: InstaPostComment[];
   onClose: () => void;
-  open: boolean; // ✅ Yangi prop
+  instaPost:InstaPost; 
+  open: boolean;
 }
 
 function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
 }
 
-const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open }) => {
+const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open, instaPost }) => {
   const { width: windowWidth, height: windowHeight } = useWindowSize();
   const [isSpinning, setIsSpinning] = useState(false);
   const [winner, setWinner] = useState<InstaPostComment | null>(null);
@@ -52,6 +46,19 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open }) => 
     startTimeRef.current = performance.now();
     animateSpin(offset, offset + totalSteps, duration);
   };
+  
+
+  const addWinner = async (win_comment: InstaPostComment) => {
+    console.log(win_comment);
+    
+    try {
+      const resoult = await api.addWinner({comment_id: win_comment?.id, instagram_user_id: win_comment?.instagram_user_id, post_id: instaPost?.id});
+      console.log(resoult);
+      
+    } catch (error) {
+      toast({ title: "Xatolik", description: "Izohlarni yuklashda xatolik yuz berdi", variant: "destructive" });
+    }
+  }
 
   // G'olibni aniqlashda markazdagi comment tanlanadi:
   const animateSpin = (startOffset: number, endOffset: number, duration: number) => {
@@ -75,6 +82,7 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open }) => 
         setTimeout(() => {
           setWinner(comments[finalIndex]);
           setShowConfetti(true);
+          addWinner(comments[finalIndex])
         }, 300);
       }
     };
@@ -82,6 +90,7 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open }) => 
     requestRef.current = requestAnimationFrame(animate);
   };
   
+
 
 
   useEffect(() => {
@@ -99,7 +108,6 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open }) => 
     }
   }, [open]);
 
-  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -124,7 +132,7 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open }) => 
 
 
             {/* Items */}
-            <div className="relative w-full h-[750px] overflow-hidden flex flex-col items-center justify-center" ref={containerRef} >
+            <div className="relative w-full h-[750px] overflow-hidden flex flex-col items-center justify-centerr" ref={containerRef} >
               {Array.from({ length: visibleItems }).map((_, i) => {
                 const indexOffset = Math.floor(offset) + i - centerIndex;
                 const realIndex = getLoopedIndex(indexOffset);
@@ -167,7 +175,6 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open }) => 
                 <p className="text-3xl font-bold text-gray-800">Tanlanayabti ...</p>
               </div> : null
             }
-
 
 
           </div>
