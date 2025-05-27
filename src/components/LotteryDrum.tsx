@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useWindowSize } from 'react-use';
-import Confetti from 'react-confetti';
 import { api } from '@/services/api';
+import Confetti from 'react-confetti';
 import { toast } from './ui/use-toast';
+import { useWindowSize } from 'react-use';
 import { InstaPost, InstaPostComment } from '@/types';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface RouletteProps {
   comments: InstaPostComment[];
@@ -49,12 +49,8 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open, insta
   
 
   const addWinner = async (win_comment: InstaPostComment) => {
-    console.log(win_comment);
-    
     try {
-      const resoult = await api.addWinner({comment_id: win_comment?.id, instagram_user_id: win_comment?.instagram_user_id, post_id: instaPost?.id});
-      console.log(resoult);
-      
+      await api.addWinner({comment_id: win_comment?.id, instagram_user_id: win_comment?.instagram_user_id, post_id: instaPost?.id});
     } catch (error) {
       toast({ title: "Xatolik", description: "Izohlarni yuklashda xatolik yuz berdi", variant: "destructive" });
     }
@@ -90,9 +86,6 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open, insta
     requestRef.current = requestAnimationFrame(animate);
   };
   
-
-
-
   useEffect(() => {
     return () => {
       if (requestRef.current) {
@@ -167,7 +160,7 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open, insta
               <div className="mt-4 w-full h-[150px] text-center px-10 py-4 bg-green-100 rounded-xl shadow-lg border-2 border-green-500 z-40">
                 <h3 className="text-2xl font-extrabold text-green-700 mb-2">🎉 GʻOLIB! 🎉</h3>
                 <p className="text-3xl font-bold text-gray-800">{winner?.instagram_user_name}</p>
-                <p className="text-xl italic text-gray-600 mt-2">"{winner?.text}"</p>
+                <p className="text-xl italic text-gray-600 mt-2 truncate">"{winner?.text}"</p>
               </div>
             )}
 

@@ -8,34 +8,34 @@ import React, { useEffect, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import RouletteModal from '@/components/LotteryDrum';
 import CommentsList from '@/components/comments/CommentsList';
-import WinnerDisplay from '@/components/winner/WinnerDisplay';
-import { WinnerDialog } from '@/components/winner/WinnerDialog';
+// import WinnerDisplay from '@/components/winner/WinnerDisplay';
+// import { WinnerDialog } from '@/components/winner/WinnerDialog';
 import { LoadingOverlay } from '@/components/ui/loading-overlay';
-import WinnerCelebration from '@/components/winner/WinnerCelebration';
+// import WinnerCelebration from '@/components/winner/WinnerCelebration';
 import { isValidInstagramUrl, extractPostIdFromUrl } from '@/lib/utils';
 
 
 const HomePage: React.FC = () => {
-  const { postUrl, setPostUrl, totalCount, setTotalCount, isUrlValid, setIsUrlValid, comments, setComments, instaPost, setInstaPost, winner, setWinner, setCurrentPostId } = usePost();
+  const { postUrl, setPostUrl, totalCount, setTotalCount, isUrlValid, setIsUrlValid, comments, setComments, instaPost, setInstaPost, setCurrentPostId } = usePost();
   const { toast } = useToast();
   const [isSelecting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isWinnerDialog, setIsWinnerDialog] = useState(false)
+  // const [isWinnerDialog, setIsWinnerDialog] = useState(false)
   const [showModal, setShowModal] = useState(false);
   // Validate URL as user types
   useEffect(() => {
     setIsUrlValid(isValidInstagramUrl(postUrl));
   }, [postUrl]);
 
-  useEffect(() => {
-    if (winner?.instagram_user_id) { 
-      const timer = setTimeout(() => {
-        setIsWinnerDialog(true)
-      }, 2300)
+  // useEffect(() => {
+  //   if (winner?.instagram_user_id) { 
+  //     const timer = setTimeout(() => {
+  //       setIsWinnerDialog(true)
+  //     }, 2300)
       
-      return () => clearTimeout(timer)
-    }
-    }, [winner])
+  //     return () => clearTimeout(timer)
+  //   }
+  //   }, [winner])
   
   // Load comments
   const handleLoadComments = async () => {
@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
     try {
       setIsLoading(true);
       setComments([]);
-      setWinner(null);
+      // setWinner(null);
       
       const postId = extractPostIdFromUrl(postUrl);
       if (!postId) {
@@ -109,7 +109,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       { isSelecting ? <LoadingOverlay /> : null}
-      { <WinnerDialog onOpenChange={setIsWinnerDialog} open={isWinnerDialog} winner={winner} /> }
+      {/* { <WinnerDialog onOpenChange={setIsWinnerDialog} open={isWinnerDialog} winner={winner} /> } */}
       <div className="space-y-8">
         <section className="text-center max-w-3xl mx-auto">
           <img src={GarantLogo} className="h-12 w-12 text-instagram-primary mx-auto mb-4" alt='logo' />
@@ -144,11 +144,11 @@ const HomePage: React.FC = () => {
             </div>
           </section>) : null}
         
-        {winner ? <section id="winner-section">
+        {/* {winner ? <section id="winner-section">
           <h2 className="text-xl font-semibold mb-4">G'olib</h2>
           <WinnerDisplay winner={winner} isSelecting={isSelecting} />
           <WinnerCelebration />
-        </section> : null}
+        </section> : null} */}
         
         {instaPost ? <div className='flex justify-center items-center'>
               <Button onClick={() => setShowModal(true)} disabled={isSelecting || comments?.length === 0} variant="instagram" className='' size="sm">

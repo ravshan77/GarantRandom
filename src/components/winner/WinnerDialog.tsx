@@ -1,8 +1,7 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { motion } from "framer-motion"
 import { TrophyIcon } from "lucide-react"
-// import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { FindRandomComment } from "@/types"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 
 
 interface WinnerDialogProps {
