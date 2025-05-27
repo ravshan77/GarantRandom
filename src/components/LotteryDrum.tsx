@@ -2,9 +2,9 @@ import { api } from '@/services/api';
 import Confetti from 'react-confetti';
 import { toast } from './ui/use-toast';
 import { useWindowSize } from 'react-use';
+import { AlertWinnerDialog } from './WinnerModal';
 import { InstaPost, InstaPostComment } from '@/types';
 import React, { useState, useEffect, useRef } from 'react';
-import { AlertWinnerDialog } from './WinnerModal';
 
 interface RouletteProps {
   comments: InstaPostComment[];
@@ -48,7 +48,6 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open, insta
     startTimeRef.current = performance.now();
     animateSpin(offset, offset + totalSteps, duration);
   };
-  
 
   const addWinner = async (win_comment: InstaPostComment) => {
     try {
@@ -64,7 +63,7 @@ const RouletteModal: React.FC<RouletteProps> = ({ comments, onClose, open, insta
       if (!startTimeRef.current) startTimeRef.current = time;
   
       const elapsed = time - startTimeRef.current;
-      const progress = Math.min(elapsed / duration, 1);
+      const progress = Math.min(elapsed / duration, 0);
       const easedProgress = easeOutCubic(progress);
       const newOffset = startOffset + (endOffset - startOffset) * easedProgress;
   

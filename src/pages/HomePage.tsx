@@ -6,13 +6,17 @@ import GarantLogo from '../assets/garantLogo.svg'
 import { usePost } from '@/context/PostUrlContext';
 import React, { useEffect, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
-import RouletteModal from '@/components/LotteryDrum';
+// import RouletteModal from '@/components/LotteryDrum';
 import CommentsList from '@/components/comments/CommentsList';
 // import WinnerDisplay from '@/components/winner/WinnerDisplay';
 // import { WinnerDialog } from '@/components/winner/WinnerDialog';
-import { LoadingOverlay } from '@/components/ui/loading-overlay';
+// import { LoadingOverlay } from '@/components/ui/loading-overlay';
 // import WinnerCelebration from '@/components/winner/WinnerCelebration';
 import { isValidInstagramUrl, extractPostIdFromUrl } from '@/lib/utils';
+// import WinnerDisplay from '@/components/winner/WinnerDisplay';
+// import WinnerCelebration from '@/components/winner/WinnerCelebration';
+// import { WinnerDialog } from '@/components/winner/WinnerDialog';
+import { RandomizerDialog } from '@/components/LastModal/LastModal';
 
 
 const HomePage: React.FC = () => {
@@ -20,8 +24,8 @@ const HomePage: React.FC = () => {
   const { toast } = useToast();
   const [isSelecting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const [isWinnerDialog, setIsWinnerDialog] = useState(false)
   const [showModal, setShowModal] = useState(false);
+  // const [isWinnerDialog, setIsWinnerDialog] = useState(false)
   // Validate URL as user types
   useEffect(() => {
     setIsUrlValid(isValidInstagramUrl(postUrl));
@@ -58,7 +62,7 @@ const HomePage: React.FC = () => {
       setInstaPost(resoult.resoult)
       setComments(resoult.resoult.comments);
       setTotalCount(resoult.resoult.comments.length);
-      toast({ title: "", description: `${resoult.resoult.comments.length} ta izoh yuklandi` });
+      // toast({ title: "", description: `${resoult.resoult.comments.length} ta izoh yuklandi` });
     } catch (error) {
       setInstaPost(null)
       setComments([]);
@@ -108,7 +112,7 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      { isSelecting ? <LoadingOverlay /> : null}
+      {/* { isSelecting ? <LoadingOverlay /> : null} */}
       {/* { <WinnerDialog onOpenChange={setIsWinnerDialog} open={isWinnerDialog} winner={winner} /> } */}
       <div className="space-y-8">
         <section className="text-center max-w-3xl mx-auto">
@@ -130,19 +134,22 @@ const HomePage: React.FC = () => {
           </div>
         </section>
 
+        <section>
+          <RandomizerDialog instaPost={instaPost} onClose={closeModal} loadComments={handleLoadComments} open={showModal} />
+        </section>
+
         {instaPost ? <section>
           <div className="w-full max-w-md mx-auto border border-gray-300 rounded-md bg-white">
             <iframe src={`${instaPost?.url}embed`} className="w-full" height="550" />
             </div>
         </section> : null}
 
-        {instaPost ? (
+        {/* {instaPost ? (
           <section>
-            {/* <Button type='button' onClick={() => setShowModal(true)} >Ok</Button> */}
             <div className="w-full max-w-md mx-auto border border-gray-300 rounded-md bg-white">
             { showModal && <RouletteModal instaPost={instaPost} comments={comments} open={showModal} onClose={closeModal} />}
             </div>
-          </section>) : null}
+          </section>) : null} */}
         
         {/* {winner ? <section id="winner-section">
           <h2 className="text-xl font-semibold mb-4">G'olib</h2>
@@ -151,6 +158,14 @@ const HomePage: React.FC = () => {
         </section> : null} */}
         
         {instaPost ? <div className='flex justify-center items-center'>
+              {/* <Button onClick={() => setShowModal(true)} disabled={isSelecting || comments?.length === 0} variant="instagram" className='' size="sm">
+                Tasodifiy g'olibni aniqlash
+              </Button> */}
+
+              {/* <Button onClick={handleSelectWinner} disabled={isSelecting || comments?.length === 0} variant="instagram" className='' size="sm">
+                Tasodifiy g'olibni aniqlash
+              </Button> */}
+
               <Button onClick={() => setShowModal(true)} disabled={isSelecting || comments?.length === 0} variant="instagram" className='' size="sm">
                 Tasodifiy g'olibni aniqlash
               </Button>

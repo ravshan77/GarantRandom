@@ -17,8 +17,8 @@ export const WinnerDialog: React.FC<WinnerDialogProps> = ({ open, onOpenChange, 
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 100, damping: 10 }}
-          className="text-center flex flex-col items-center space-y-4"
+          transition={{ type: "spring", stiffness: 100, damping: 10 }} 
+          className="text-center flex flex-col items-center space-y-4" 
         >
           <motion.div
             animate={{ rotate: [0, 15, -15, 10, -10, 0] }}
@@ -31,16 +31,8 @@ export const WinnerDialog: React.FC<WinnerDialogProps> = ({ open, onOpenChange, 
             🎉 Tabriklaymiz! 🎉
           </h2>
 
-          {/* <Avatar className="w-20 h-20 border-4 border-yellow-400 shadow-lg">
-            <AvatarFallback className="text-2xl font-bold bg-yellow-300 text-white">
-              {winner?.username.slice(0, 1).toUpperCase()}
-            </AvatarFallback>
-          </Avatar> */}
-
           <p className="text-4xl font-bold text-yellow-950">{winner?.username}</p>
-
           <p className="text-lg italic text-gray-600">"{winner?.select_comment}"</p>
-
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
