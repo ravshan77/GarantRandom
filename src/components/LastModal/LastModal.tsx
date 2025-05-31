@@ -36,9 +36,9 @@ export const RandomizerDialog = ({ instaPost, open, onClose, loadComments }: Pro
     setTitle("G'olib aniqlanmoqda ...");
 
     const startTime = performance.now();
-    const fastDuration = 5000;
-    const slowDuration = 2000;
-    const totalDuration = 10000;
+    const fastDuration = 17000;
+    const slowDuration = 3000;
+    const totalDuration = 20000;
 
     const updateUsername = (timeNow: number) => {
       const elapsed = timeNow - startTime;
