@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 interface PostUrlContextType {
   postUrl: string;
   setPostUrl: (value: string) => void;
-  totalCount: number , 
+  totalCount: number, 
   setTotalCount: React.Dispatch<React.SetStateAction<number>>, 
   isUrlValid: boolean, 
   setIsUrlValid:  React.Dispatch<React.SetStateAction<boolean>>, 

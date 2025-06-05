@@ -11,7 +11,6 @@ import CommentsList from '@/components/comments/CommentsList';
 // import WinnerDisplay from '@/components/winner/WinnerDisplay';
 // import { WinnerDialog } from '@/components/winner/WinnerDialog';
 // import { LoadingOverlay } from '@/components/ui/loading-overlay';
-// import WinnerCelebration from '@/components/winner/WinnerCelebration';
 import { isValidInstagramUrl, extractPostIdFromUrl } from '@/lib/utils';
 // import WinnerDisplay from '@/components/winner/WinnerDisplay';
 // import WinnerCelebration from '@/components/winner/WinnerCelebration';
@@ -58,10 +57,11 @@ const HomePage: React.FC = () => {
       
       setCurrentPostId(postId);
       const resoult = await api.getPostComments(postId);
-
+      
       setInstaPost(resoult.resoult)
       setComments(resoult.resoult.comments);
-      setTotalCount(resoult.resoult.comments.length);
+      setTotalCount(resoult.resoult.comment_count);
+      
       // toast({ title: "", description: `${resoult.resoult.comments.length} ta izoh yuklandi` });
     } catch (error) {
       setInstaPost(null)
