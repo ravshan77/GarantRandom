@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
       
       setInstaPost(resoult.resoult)
       setComments(resoult.resoult.comments);
-      setTotalCount(resoult.resoult.comment_count);
+      setTotalCount(resoult.resoult.comment_count_instagram);
       
       // toast({ title: "", description: `${resoult.resoult.comments.length} ta izoh yuklandi` });
     } catch (error) {

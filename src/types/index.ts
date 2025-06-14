@@ -17,7 +17,8 @@ export interface InstaPost {
   is_video: boolean,
   media_url: string,
   comments: InstaPostComment[],
-  comment_count: number
+  comment_count_baza: number
+  comment_count_instagram: number
 }
 
 export interface FindRandomComment {
